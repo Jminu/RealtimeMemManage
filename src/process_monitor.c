@@ -3,6 +3,7 @@
 #include <sys/ptrace.h>
 #include <dirent.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 void monitor_all_process()
 {
@@ -31,6 +32,12 @@ void monitor_all_process()
 
 int main()
 {
-	monitor_all_process();
+	while(1)
+	{
+		system("clear");
+		monitor_all_process();
+		sleep(1);
+	}
+
 	return 0;
 }
