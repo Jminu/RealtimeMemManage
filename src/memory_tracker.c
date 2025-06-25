@@ -26,7 +26,7 @@ int filter_memory_systemcall(int syscall_num)
 	}
 }
 
-SYSCALL_EVENT get_memory_snapshot(pid_t pid, int systemcall_num, const char *systemcall_name)
+SYSCALL_EVENT get_memory_snapshot(pid_t pid, int systemcall_num)
 {
 	SYSCALL_EVENT event;
 

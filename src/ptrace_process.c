@@ -9,7 +9,7 @@
 #include <string.h>
 #include <sys/uio.h> //for - ptrace(PTRACE_GETREGSET) call, iovec definition
 #include <asm/ptrace.h> //for - struct user_pt_regs
-#include "../header/memory_tracker.h" 
+#include "../header/memory_tracker.h"
 
 int status; //process status
 
@@ -56,13 +56,8 @@ void ptrace_systemcall(pid_t pid)
 		if(filter_memory_systemcall(syscall_num))
 		{
 			// put current process memory info
-			
-
-
-
-
-
-
+			syscall_event = get_memory_snapshot(pid, syscall_num); // event snapshot info
+		}
                 
                 ptrace(PTRACE_SYSCALL, pid, NULL, NULL);
                 waitpid(pid, &status, 0);
