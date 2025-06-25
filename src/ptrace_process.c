@@ -35,20 +35,21 @@ int get_syscall(pid_t pid)
 	
 	printf("Current system call number: %llu x0: %llu, x1: %llu\n", regs.regs[8], regs.regs[0], regs.regs[1]); //based on aarch64(arm64) 
 	
-	return regs.regs[8];
+	return regs.regs[8]; // return syscall number
 }	
 
 void ptrace_systemcall(pid_t pid)
 {
         while(WIFSTOPPED(status))  //if this process stopped because of ptrace,  WIFSTOPPED(status) returns TRUE
-        {
+	{
+		int syscall_num = 0;
                 ptrace(PTRACE_SYSCALL, pid, NULL, NULL); //stop when enter the SystemCall
                 waitpid(pid, &status, 0); //
                 
                 if(WIFEXITED(status))
                         break;
                         
-                get_syscall(pid);
+                syscall_num = get_syscall(pid); // get syscall number
                 
                 ptrace(PTRACE_SYSCALL, pid, NULL, NULL);
                 waitpid(pid, &status, 0);
