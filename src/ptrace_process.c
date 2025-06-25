@@ -40,6 +40,8 @@ int get_syscall(pid_t pid)
 
 void ptrace_systemcall(pid_t pid)
 {
+	SYSCALL_EVENT syscall_event;
+
         while(WIFSTOPPED(status))  //if this process stopped because of ptrace,  WIFSTOPPED(status) returns TRUE
 	{
 		int syscall_num = 0;
@@ -50,6 +52,17 @@ void ptrace_systemcall(pid_t pid)
                         break;
                         
                 syscall_num = get_syscall(pid); // get syscall number
+		
+		if(filter_memory_systemcall(syscall_num))
+		{
+			// put current process memory info
+			
+
+
+
+
+
+
                 
                 ptrace(PTRACE_SYSCALL, pid, NULL, NULL);
                 waitpid(pid, &status, 0);
