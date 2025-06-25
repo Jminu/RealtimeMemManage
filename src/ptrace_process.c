@@ -9,6 +9,7 @@
 #include <string.h>
 #include <sys/uio.h> //for - ptrace(PTRACE_GETREGSET) call, iovec definition
 #include <asm/ptrace.h> //for - struct user_pt_regs
+#include 
 
 int status; //process status
 
@@ -32,7 +33,9 @@ void get_syscall(pid_t pid)
 	ptrace(PTRACE_GETREGSET, pid, (void *)NT_PRSTATUS, &io); //NT_PRSTATUS: select register set
 	//copy process's register set to io
 	
-	printf("Current system call number: %llu x0: %llu, x1: %llu\n", regs.regs[8], regs.regs[0], regs.regs[1]); //based on aarch64(arm64)
+	printf("Current system call number: %llu x0: %llu, x1: %llu\n", regs.regs[8], regs.regs[0], regs.regs[1]); //based on aarch64(arm64) 
+	
+
 }	
 
 void ptrace_systemcall(pid_t pid)
@@ -72,5 +75,3 @@ int main()
 	}
 
 	return 0;
-}
-

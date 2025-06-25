@@ -29,15 +29,3 @@ void monitor_all_process()
 	}
 	closedir(dir);
 }
-
-int main()
-{
-	while(1)
-	{
-		system("clear");
-		monitor_all_process();
-		sleep(1);
-	}
-
-	return 0;
-}
