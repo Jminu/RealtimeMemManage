@@ -9,7 +9,7 @@
 #include <string.h>
 #include <sys/uio.h> //for - ptrace(PTRACE_GETREGSET) call, iovec definition
 #include <asm/ptrace.h> //for - struct user_pt_regs
-#include 
+#include "../header/memory_tracker.h" 
 
 int status; //process status
 
@@ -20,7 +20,7 @@ void ptrace_attach_process(pid_t pid)
 	printf("Attach to PID: %d\n", pid);
 }
 
-void get_syscall(pid_t pid)
+int get_syscall(pid_t pid)
 {
 	struct user_pt_regs regs; //structure that register status when SystemCall ocurred
 	//basically SystemCall number stored to Reg[8] in arm64 Linux
@@ -35,7 +35,7 @@ void get_syscall(pid_t pid)
 	
 	printf("Current system call number: %llu x0: %llu, x1: %llu\n", regs.regs[8], regs.regs[0], regs.regs[1]); //based on aarch64(arm64) 
 	
-
+	return regs.regs[8];
 }	
 
 void ptrace_systemcall(pid_t pid)
@@ -56,22 +56,3 @@ void ptrace_systemcall(pid_t pid)
                         break;
         }
 }
-
-int main()
-{
-	pid_t pid = fork();
-	
-	if(pid == 0)
-	{
-		int *p = (int *)malloc(sizeof(int));
-		*p = 32;
-		printf("child\n");
-	}
-	else
-	{
-		ptrace_attach_process(pid);
-		ptrace_systemcall(pid);
-		printf("parent\n");
-	}
-
-	return 0;
