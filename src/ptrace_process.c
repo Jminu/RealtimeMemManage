@@ -9,7 +9,7 @@
 #include <string.h>
 #include <sys/uio.h> //for - ptrace(PTRACE_GETREGSET) call, iovec definition
 #include <asm/ptrace.h> //for - struct user_pt_regs
-#include "../header/memory_tracker.h"
+#include "memory_tracker.h"
 
 int status; //process status
 

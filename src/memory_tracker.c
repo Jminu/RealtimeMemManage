@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include "../header/memory_tracker.h"
+#include "memory_tracker.h"
 
 int filter_memory_systemcall(int syscall_num)
 {
