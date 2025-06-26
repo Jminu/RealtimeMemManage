@@ -30,7 +30,6 @@ SYSCALL_EVENT get_memory_snapshot(pid_t pid, int systemcall_num)
 {
 	SYSCALL_EVENT event;
 
-		
 	event.syscall_num = 0; // system call number
 	event.syscall_name = "null\0"; // system call name
 	event.cur_vmsize = 0; // virtual memory size
@@ -45,9 +44,9 @@ SYSCALL_EVENT get_memory_snapshot(pid_t pid, int systemcall_num)
 	int fd;
 	int read_bytes;
 	
-	snprintf(status_path, sizeof(path), "/proc/%d/status", pid); // generate path string
+	snprintf(status_path, sizeof(status_path), "/proc/%d/status", pid); // generate path string
 	
-	fd = open(staus_path, O_RDONLY);
+	fd = open(status_path, O_RDONLY);
 	if(fd == -1)
 	{
 		perror("file open error!");
@@ -61,18 +60,18 @@ SYSCALL_EVENT get_memory_snapshot(pid_t pid, int systemcall_num)
 		exit(1);
 	}
 
-	buffer[read_bytes] = '\0' // add null at last
+	buffer[read_bytes] = '\0'; // add null at last
 	
 	line = strtok(buffer, '\n');
 	while(line != NULL) // extract from str
 	{
-		if(sscanf(line, "VmSize: %zu kB", event.cur_vmsize) == 1)
+		if(sscanf(line, "VmSize: %zu kB", &event.cur_vmsize) == 1)
 		{}
-		else if(sscanf(line, "VmRss: %zu kB", event.cur_vmrss) == 1)
+		else if(sscanf(line, "VmRss: %zu kB", &event.cur_vmrss) == 1)
 		{}
-		else if(sscanf(line, "VmData: %zu kB", event.cur_vmdata) == 1)
+		else if(sscanf(line, "VmData: %zu kB", &event.cur_vmdata) == 1)
 		{}
-		else if(sscanf(line, "RssFile: %zu kB", event.cur_mapped) == 1)
+		else if(sscanf(line, "RssFile: %zu kB", &event.cur_mapped) == 1)
 		{}
 		
 		line = strtok(NULL, '\n');
