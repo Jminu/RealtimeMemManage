@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <stdlib.h>
-#include "../header/ptrace_process.h"
-#include "../header/memory_tracker.h"
-
+#include "../header/tracker.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,8 +19,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	ptrace_attach(target_pid); // attach tracer to target_pid
-	ptrace_systemcall(target_pid); // watch target_pid process
-	
+	run_tracker(target_pid);
+
 	return 0;
 }
