@@ -57,6 +57,7 @@ void ptrace_systemcall(pid_t pid)
 		{
 			// put current process memory info
 			syscall_event = get_memory_snapshot(pid, syscall_num); // event snapshot info
+			print_syscall_event(&syscall_event);
 		}
                 
                 ptrace(PTRACE_SYSCALL, pid, NULL, NULL);
@@ -65,3 +66,15 @@ void ptrace_systemcall(pid_t pid)
                         break;
         }
 }
+
+void print_syscall_event(const SYSCALL_EVENT *event)
+{
+	printf("\n[SYSCALL DETECTED]\n");
+	printf("Syscall Num          : %d\n", event->syscall_num);
+	printf("VmSize (kB)          : %zu\n", event->cur_vmsize);
+	printf("VmRss  (kB)          : %zu\n", event->cur_vmrss);
+	printf("VmData (kB)          : %zu\n", event->cur_vmdata);
+	printf("RssFile(kB)          : %zu\n", event->cur_mapped);
+	printf("------------------------------------------------\n");
+}
+
