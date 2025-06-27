@@ -9,8 +9,8 @@ typedef struct syscall_event
         size_t cur_vmrss; //current real memory comsumed
         size_t cur_vmdata; //heap area
         size_t cur_mapped; //area that mapping by mmap
-}SYSCALL_EVENT
+}SYSCALL_EVENT;
 
-void filter_memory_systemcall(int syscall_num);
+int filter_memory_systemcall(int syscall_num);
 
 SYSCALL_EVENT get_memory_snapshot(pid_t pid, int systemcall_num);

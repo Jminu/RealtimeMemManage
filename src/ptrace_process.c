@@ -11,6 +11,7 @@
 #include <asm/ptrace.h> //for - struct user_pt_regs
 #include "memory_tracker.h"
 
+void print_syscall_event(const SYSCALL_EVENT *event);
 int status; //process status
 
 void ptrace_attach_process(pid_t pid)

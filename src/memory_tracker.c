@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -31,7 +33,7 @@ SYSCALL_EVENT get_memory_snapshot(pid_t pid, int systemcall_num)
 	SYSCALL_EVENT event;
 
 	event.syscall_num = 0; // system call number
-	event.syscall_name = "null\0"; // system call name
+	strcpy(event.syscall_name, "null");
 	event.cur_vmsize = 0; // virtual memory size
 	event.cur_vmrss = 0; // real memory size
 	event.cur_vmdata = 0; // heap area
@@ -62,7 +64,7 @@ SYSCALL_EVENT get_memory_snapshot(pid_t pid, int systemcall_num)
 
 	buffer[read_bytes] = '\0'; // add null at last
 	
-	line = strtok(buffer, '\n');
+	line = strtok(buffer, "\n");
 	while(line != NULL) // extract from str
 	{
 		if(sscanf(line, "VmSize: %zu kB", &event.cur_vmsize) == 1)
@@ -74,7 +76,7 @@ SYSCALL_EVENT get_memory_snapshot(pid_t pid, int systemcall_num)
 		else if(sscanf(line, "RssFile: %zu kB", &event.cur_mapped) == 1)
 		{}
 		
-		line = strtok(NULL, '\n');
+		line = strtok(NULL, "\n");
 	}
 	event.syscall_num = systemcall_num;
 
